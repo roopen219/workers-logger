@@ -13,7 +13,7 @@ export const track = (req: Request, name?: string, reporter?: Reporter) => {
 	const $ = diary(name || '', (event) => void queue.push(event)) as Tracker;
 
 	$.report = (res) => {
-		if (queue.length && typeof reporter === 'function') {
+		if (typeof reporter === 'function') {
 			return reporter(queue, { req, res, meta: metaData });
 		}
 	};
