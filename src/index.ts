@@ -8,14 +8,19 @@ export { enable } from 'diary';
 
 export const track = (req: Request, name?: string, reporter?: Reporter) => {
 	const queue: LogEvent[] = [];
+  const metaData: Record<string, unknown> = {};
 
 	const $ = diary(name || '', (event) => void queue.push(event)) as Tracker;
 
 	$.report = (res) => {
 		if (queue.length && typeof reporter === 'function') {
-			return reporter(queue, { req, res });
+			return reporter(queue, { req, res, meta: metaData });
 		}
 	};
+
+  $.meta = (key, value) => {
+    metaData[key] = value;
+  }
 
 	return $;
 };
