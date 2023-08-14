@@ -14,6 +14,7 @@ export interface Tracker extends Diary {
 	report(response: Response): Promise<any> | void | undefined;
   meta(key: string, value: unknown): void;
   metaObj(obj: Record<string, unknown>): void;
+  getMeta(): Record<string, unknown>;
 }
 
 export const track: (

@@ -26,5 +26,9 @@ export const track = (req: Request, name?: string, reporter?: Reporter) => {
     metaData = { ...metaData, ...obj };
   }
 
+  $.getMeta = () => {
+    return metaData;
+  }
+
 	return $;
 };
