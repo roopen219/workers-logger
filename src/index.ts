@@ -9,6 +9,7 @@ export { enable } from 'diary';
 export const track = (req: Request, name?: string, reporter?: Reporter) => {
 	const queue: LogEvent[] = [];
   let metaData: Record<string, unknown> = {};
+  const childLoggers: Record<string, Tracker> = {};
 
 	const $ = diary(name || '', (event) => void queue.push(event)) as Tracker;
 
@@ -28,6 +29,18 @@ export const track = (req: Request, name?: string, reporter?: Reporter) => {
 
   $.getMeta = () => {
     return metaData;
+  }
+
+  $.child = (name) => {
+    if (!childLoggers[name]) {
+      childLoggers[name] = track(req, name, reporter);
+      childLoggers[name].metaObj(metaData);
+    }
+    return childLoggers[name];
+  }
+
+  $.children = () => {
+    return Object.values(childLoggers);
   }
 
 	return $;
