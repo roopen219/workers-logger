@@ -15,6 +15,8 @@ export interface Tracker extends Diary {
   meta(key: string, value: unknown): void;
   metaObj(obj: Record<string, unknown>): void;
   getMeta(): Record<string, unknown>;
+  child(name: string): Tracker;
+  children(): Tracker[];
 }
 
 export const track: (
